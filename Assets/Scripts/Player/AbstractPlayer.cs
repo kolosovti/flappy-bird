@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Zenject;
 
 /// <summary>
 /// Абстрактный класс 
@@ -25,9 +24,4 @@ public abstract class AbstractPlayer : MonoBehaviour
     /// Восстановить игрока в дефолтное значение
     /// </summary>
     public abstract void ResetToDefault();
-
-    /// <summary>
-    /// Фабрика создания игроков
-    /// </summary>
-    public class Factory : PlaceholderFactory<AbstractPlayer> { }
 }

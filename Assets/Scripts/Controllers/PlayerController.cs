@@ -5,7 +5,7 @@
 /// </summary>
 public class PlayerController
 {
-    private const string PLAYER_JUMP_HANDLE_OBJECT_TAG = "PlayerJumpControlObject";
+    private const string PLAYER_MOVE_HANDLE_OBJECT_TAG = "PlayerJumpControlObject";
 
     /// <summary>
     /// Абстрактный игрок
@@ -18,7 +18,7 @@ public class PlayerController
     /// <param name="inputSignal"></param>
     public void InputSignalHandler(InputControl.TouchInputDetectSignal inputSignal)
     {
-        if (inputSignal.objectTag == PLAYER_JUMP_HANDLE_OBJECT_TAG)
+        if (inputSignal.objectTag == PLAYER_MOVE_HANDLE_OBJECT_TAG)
         {
             player.Move();
         }
