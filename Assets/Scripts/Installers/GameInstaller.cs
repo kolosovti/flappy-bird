@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Walls;
 using Zenject;
 
 /// <summary>
@@ -9,7 +10,10 @@ public class GameInstaller : MonoInstaller
     private const string WALLS_TRANSFORM_GROUP = "Walls";
 
     [Inject]
-    private WallObject.Settings wallObjectSettings;
+    private GreenWallObject.Settings wallObjectSettings;
+
+    [Inject]
+    private RedWallObject.Settings redWallObjectSettings;
 
     [Inject]
     private BirdPlayer.Settings birdPlayerSettings;
@@ -26,13 +30,19 @@ public class GameInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<SelectPlayerHandler>().AsSingle();
         Container.BindInterfacesAndSelfTo<WallSpawner>().AsSingle();
 
-        Container.BindFactory<Vector2, AbstractWall, AbstractWall.Factory>()
+        Container.BindFactory<Vector2, AbstractWall, GreenWallObject.Factory>()
             .FromPoolableMemoryPool<Vector2, AbstractWall, WallObjectsPool>(poolBinder => poolBinder
             .WithInitialSize(10)
             .FromComponentInNewPrefab(wallObjectSettings.WallPrefab)
             .UnderTransformGroup(WALLS_TRANSFORM_GROUP));
 
-        Container.BindFactory<AbstractPlayer, AbstractPlayer.Factory>()
+        Container.BindFactory<Vector2, AbstractWall, RedWallObject.Factory>()
+            .FromPoolableMemoryPool<Vector2, AbstractWall, WallObjectsPool>(poolBinder => poolBinder
+            .WithInitialSize(10)
+            .FromComponentInNewPrefab(redWallObjectSettings.WallPrefab)
+            .UnderTransformGroup(WALLS_TRANSFORM_GROUP));
+
+        Container.BindFactory<AbstractPlayer, BirdPlayer.Factory>()
             .FromComponentInNewPrefab(birdPlayerSettings.PlayerPrefab);
     }
 

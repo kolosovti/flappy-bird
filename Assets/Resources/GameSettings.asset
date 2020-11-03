@@ -12,21 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2015d91605ecc042aca2d8405781537, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  WallObjectSettings:
+  GreenWallObjectSettings:
     WallPrefab: {fileID: 1552367106128663312, guid: 108e77c72b934be4eae6633e9aa5e77b,
       type: 3}
     DistanceBetweenWalls: 9.2
     MoveSpeed: {x: -0.1, y: 0}
     DespawnPositionX: -15
-  wallSpawnerSettings:
-    MaxOffsetY: 3
+  RedWallObjectSettings:
+    WallPrefab: {fileID: 6950932065369306161, guid: 6ce7e12dadddde24a8835b03e114914f,
+      type: 3}
+    DistanceBetweenWalls: 9.2
+    MoveSpeed: {x: -0.1, y: 0}
+    DespawnPositionX: -15
+  WallSpawnerSettings:
+    MaxOffsetY: 2
     MaxDistance: 5
-  birdPlayerSettings:
+    wallColor: 1
+  BirdPlayerSettings:
     PlayerPrefab: {fileID: 1173706979696674770, guid: c2df33311a357c249a77fbeee0c70fa2,
       type: 3}
-    movement: {x: 0, y: 0.5}
-    rigidbody: {fileID: 5133914974688931563, guid: c2df33311a357c249a77fbeee0c70fa2,
-      type: 3}
+    movement: {x: 0, y: 1}
     defaultPosition: {x: 0, y: 0}
-  inputSettings:
+  InputSettings:
     mainCamera: {fileID: 0}

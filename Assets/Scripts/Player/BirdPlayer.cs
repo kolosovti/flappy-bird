@@ -5,17 +5,25 @@ using Zenject;
 /// <summary>
 /// Класс игрока - птицы
 /// </summary>
+[RequireComponent(typeof(Rigidbody2D))]
 public class BirdPlayer : AbstractPlayer
 {
     [Inject]
     private Settings settings;
+
+    private Rigidbody2D birdRigidbody;
+
+    private void Start()
+    {
+        birdRigidbody = GetComponent<Rigidbody2D>();
+    }
 
     /// <summary>
     /// Начать игровую активность
     /// </summary>
     public override void StartGameMovement()
     {
-        settings.rigidbody.simulated = true;
+        birdRigidbody.simulated = true;
     }
 
     /// <summary>
@@ -23,7 +31,7 @@ public class BirdPlayer : AbstractPlayer
     /// </summary>
     public override void Move()
     {
-        settings.rigidbody.velocity = settings.movement;
+        birdRigidbody.velocity = settings.movement;
     }
 
     /// <summary>
@@ -31,7 +39,7 @@ public class BirdPlayer : AbstractPlayer
     /// </summary>
     public override void Death()
     {
-        settings.rigidbody.simulated = false;
+        birdRigidbody.simulated = false;
     }
 
     /// <summary>
@@ -39,12 +47,12 @@ public class BirdPlayer : AbstractPlayer
     /// </summary>
     public override void ResetToDefault()
     {
-        settings.rigidbody.position = settings.defaultPosition;
+        birdRigidbody.position = settings.defaultPosition;
     }
 
     private void Update()
     {
-        settings.rigidbody.rotation = Vector2.Angle(Vector2.zero, settings.rigidbody.velocity);
+        birdRigidbody.rotation = Vector2.Angle(Vector2.zero, birdRigidbody.velocity);
     }
 
     /// <summary>
@@ -59,10 +67,12 @@ public class BirdPlayer : AbstractPlayer
         [Header("Направление движения при совершении активности")]
         public Vector2 movement = Vector2.up;
 
-        [Header("Компонент Rigidbody")]
-        public Rigidbody2D rigidbody;
-
         [Header("Дефолтная позиция игрока")]
         public Vector2 defaultPosition = Vector2.zero;
     }
+
+    /// <summary>
+    /// Фабрика создания игроков
+    /// </summary>
+    public class Factory : PlaceholderFactory<AbstractPlayer> { }
 }

@@ -2,63 +2,86 @@
 using UnityEngine;
 using Zenject;
 
-/// <summary>
-/// Контроллер спавна объектов - 
-/// </summary>
-public class WallSpawner : ITickable
+namespace Walls
 {
-    private const float DEFAULT_OFFSET_X = 0f;
-
-    [Inject]
-    private AbstractWall.Factory wallObjectsFactory;
-
-    [Inject]
-    private WallObject.Settings wallSettings;
-
-    [Inject]
-    private Settings spawnerSettings;
-
-    private AbstractWall lastSpawnedWall;
-
     /// <summary>
-    /// Реализация интерфейса ITickable
+    /// Контроллер спавна стен
     /// </summary>
-    public void Tick()
+    public class WallSpawner : ITickable
     {
-        if (ShouldSpawnNewWall())
+        /// <summary>
+        /// Перечисляемый тип - цвет стен
+        /// </summary>
+        public enum WallColor
         {
-            SpawnWall();
-        }
-    }
-
-    private bool ShouldSpawnNewWall()
-    {
-        if (lastSpawnedWall == null)
-        {
-            return true;
+            Red,
+            Green
         }
 
-        return Mathf.Abs(lastSpawnedWall.LocalPosition.x) > spawnerSettings.MaxDistance;
-    }
+        private const float DEFAULT_OFFSET_X = 0f;
 
-    private void SpawnWall()
-    {
-        float maxOffsetY = Mathf.Abs(spawnerSettings.MaxOffsetY);
-        Vector2 offset = new Vector2(DEFAULT_OFFSET_X, UnityEngine.Random.Range(-maxOffsetY, maxOffsetY));
+        [Inject]
+        private GreenWallObject.Factory greenWallObjectsFactory;
 
-        lastSpawnedWall = wallObjectsFactory.Create(offset);
-    }
+        [Inject]
+        private RedWallObject.Factory redWallObjectsFactory;
 
-    /// <summary>
-    /// Настройки спавнера стен
-    /// </summary>
-    [Serializable]
-    public class Settings
-    {
-        [Header("Максимальное смещение объекта по оси ординат")]
-        public float MaxOffsetY;
+        [Inject]
+        private Settings spawnerSettings;
 
-        [Header("Расстояние между спавном объектов")]
-        public float MaxDistance;
+        private AbstractWall lastSpawnedWall;
+
+        /// <summary>
+        /// Реализация интерфейса ITickable
+        /// </summary>
+        public void Tick()
+        {
+            if (ShouldSpawnNewWall())
+            {
+                SpawnWall();
+            }
+        }
+
+        private bool ShouldSpawnNewWall()
+        {
+            if (lastSpawnedWall == null)
+            {
+                return true;
+            }
+
+            return Mathf.Abs(lastSpawnedWall.LocalPosition.x) > spawnerSettings.MaxDistance;
+        }
+
+        private void SpawnWall()
+        {
+            float maxOffsetY = Mathf.Abs(spawnerSettings.MaxOffsetY);
+            Vector2 offset = new Vector2(DEFAULT_OFFSET_X, UnityEngine.Random.Range(-maxOffsetY, maxOffsetY));
+
+            switch (spawnerSettings.wallColor)
+            {
+                case WallColor.Green:
+                    lastSpawnedWall = greenWallObjectsFactory.Create(offset);
+                    break;
+                case WallColor.Red:
+                    lastSpawnedWall = redWallObjectsFactory.Create(offset);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Настройки спавнера стен
+        /// </summary>
+        [Serializable]
+        public class Settings
+        {
+            [Header("Максимальное смещение объекта по оси ординат")]
+            public float MaxOffsetY;
+
+            [Header("Расстояние между спавном объектов")]
+            public float MaxDistance;
+
+            [Header("Цвет стен")]
+            public WallColor wallColor;
+        }
     }
 }

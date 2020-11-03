@@ -2,11 +2,12 @@
 
 /// <summary>
 /// Класс, обрабатывающий выбор игрока
+/// Заглушка с инициализацией, из которой можно реализовать выбор игрока
 /// </summary>
 public class SelectPlayerHandler : IInitializable
 {
     [Inject]
-    private AbstractPlayer.Factory playerFactory;
+    private BirdPlayer.Factory playerFactory;
 
     [Inject]
     private PlayerController playerController;
