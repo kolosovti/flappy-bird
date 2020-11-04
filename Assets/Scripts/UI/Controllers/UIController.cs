@@ -12,6 +12,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private AbstractRendererView pausePanel;
     [SerializeField] private AbstractRendererView bestScorePanel;
     [SerializeField] private AbstractRendererView gameOverPanel;
+    [SerializeField] private AbstractRendererView settingsPanel;
 
     /// <summary>
     /// Панель главного меню
@@ -38,6 +39,11 @@ public class UIController : MonoBehaviour
     /// </summary>
     public AbstractRendererView GameOverPanel { get => gameOverPanel; private set => gameOverPanel = value; }
 
+    /// <summary>
+    /// Панель настроек
+    /// </summary>
+    public AbstractRendererView SettingsPanel { get => settingsPanel; private set => settingsPanel = value; }
+
     private List<AbstractRendererView> panels = new List<AbstractRendererView>();
     private GameController.StartGameSignal startGameSignal;
 
@@ -59,6 +65,7 @@ public class UIController : MonoBehaviour
         panels.Add(PausePanel);
         panels.Add(BestScorePanel);
         panels.Add(GameOverPanel);
+        panels.Add(SettingsPanel);
 
         ResetToDefault();
     }

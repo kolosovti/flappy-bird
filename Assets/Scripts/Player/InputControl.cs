@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Zenject;
 
 /// <summary>
@@ -38,7 +39,10 @@ public class InputControl : ITickable
     {
         if (Input.GetMouseButtonDown(MOUSE_LEFT_BUTTON_KEY))
         {
-            signalBus.Fire(new MouseInputDetectSignal() { PressedMouseButtonKey = MOUSE_LEFT_BUTTON_KEY });
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                signalBus.Fire(new MouseInputDetectSignal() { });
+            }
         }
 
         if (Input.touchCount > 0)
@@ -62,13 +66,7 @@ public class InputControl : ITickable
     /// <summary>
     /// Класс для отправки сигнала о клике по объекту в сцене
     /// </summary>
-    public class MouseInputDetectSignal
-    {
-        /// <summary>
-        /// Название объекта, в который попал рейкаст
-        /// </summary>
-        public int PressedMouseButtonKey;
-    }
+    public class MouseInputDetectSignal { }
 
     /// <summary>
     /// Настройки ввода

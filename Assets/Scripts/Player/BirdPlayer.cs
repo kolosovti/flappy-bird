@@ -14,6 +14,12 @@ public class BirdPlayer : AbstractPlayer
     [Inject]
     private Settings settings;
 
+    [Inject]
+    private ScoreController scoreController;
+
+    [Inject]
+    private SoundsController soundsController;
+
     private Rigidbody2D birdRigidbody;
 
     private void Start()
@@ -76,6 +82,15 @@ public class BirdPlayer : AbstractPlayer
         if (collision.gameObject.tag == WALL_OBJECT_TAG)
         {
             playerController.DeathHandler();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == WALL_SCORE_COUNTER_TAG)
+        {
+            scoreController.CountScore();
+            soundsController.PlayScoreSound();
         }
     }
 

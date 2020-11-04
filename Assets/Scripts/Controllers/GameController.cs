@@ -8,6 +8,13 @@ public class GameController
     [Inject]
     private TimeController timeController;
 
+    private bool isGamePlaying;
+
+    /// <summary>
+    /// Свойство - активна ли сейчас игровая сессия
+    /// </summary>
+    public bool IsGamePlaying { get => isGamePlaying; private set => isGamePlaying = value; }
+
     /// <summary>
     /// Конструктор класса
     /// </summary>
@@ -15,6 +22,7 @@ public class GameController
     public GameController(SignalBus _signalBus)
     {
         signalBus = _signalBus;
+        signalBus.Subscribe<PlayerController.PlayerDeathSignal>(PauseGame);
     }
 
     /// <summary>
@@ -22,6 +30,7 @@ public class GameController
     /// </summary>
     public void StartGame()
     {
+        IsGamePlaying = true;
         signalBus.Fire(new StartGameSignal() { });
     }
 
@@ -30,6 +39,7 @@ public class GameController
     /// </summary>
     public void PauseGame()
     {
+        IsGamePlaying = false;
         signalBus.Fire(new PauseSignal() { });
     }
 
@@ -38,6 +48,7 @@ public class GameController
     /// </summary>
     public void ResetToDefault()
     {
+        IsGamePlaying = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

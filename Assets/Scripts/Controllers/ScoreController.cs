@@ -25,7 +25,6 @@ public class ScoreController
     /// </summary>
     public void CountScore()
     {
-        Debug.Log("count");
         if (++currentScore > BestScore)
         {
             BestScore = currentScore;
