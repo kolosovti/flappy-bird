@@ -5,12 +5,10 @@
 /// </summary>
 public class PlayerController
 {
-    private const string PLAYER_MOVE_HANDLE_OBJECT_TAG = "PlayerJumpControlObject";
-
     private SignalBus signalBus;
 
     [Inject]
-    private TimeController timeController;
+    private GameController gameController;
 
     /// <summary>
     /// Конструктор класса
@@ -41,10 +39,7 @@ public class PlayerController
     /// <param name="inputSignal"></param>
     public void InputSignalHandler(InputControl.TouchInputDetectSignal inputSignal)
     {
-        if (player)
-        {
-            player.Move();
-        }
+        HandleInputSignal();
     }
 
     /// <summary>
@@ -53,12 +48,15 @@ public class PlayerController
     /// <param name="inputSignal"></param>
     public void InputSignalHandler(InputControl.MouseInputDetectSignal inputSignal)
     {
-        if (inputSignal.PressedMouseButtonKey == InputControl.MOUSE_LEFT_BUTTON_KEY)
+        HandleInputSignal();
+    }
+
+    private void HandleInputSignal()
+    {
+        if (player && gameController.IsGamePlaying)
         {
-            if (player)
-            {
-                player.Move();
-            }
+            player.Move();
+            signalBus.Fire(new MovePlayerSignal { });
         }
     }
 
@@ -83,4 +81,9 @@ public class PlayerController
     /// Класс для отправки события о смерти персонажа
     /// </summary>
     public class PlayerDeathSignal { }
+
+    /// <summary>
+    /// Класс для отправки сигнала о действии движения персонажа
+    /// </summary>
+    public class MovePlayerSignal { }
 }

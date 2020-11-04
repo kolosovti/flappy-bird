@@ -6,6 +6,7 @@
 public abstract class AbstractPlayer : MonoBehaviour
 {
     protected const string WALL_OBJECT_TAG = "Wall";
+    protected const string WALL_SCORE_COUNTER_TAG = "ScoreCounter";
 
     /// <summary>
     /// Начать игровую активность

@@ -30,12 +30,16 @@ public class ScoreView : AbstractText
         signalBus.Subscribe<ScoreController.BestScoreUpdatedSignal>(UpdateScore);
     }
 
+    private void Start()
+    {
+        UpdateScore();
+    }
+
     /// <summary>
     /// Обновить счёт
     /// </summary>
     public void UpdateScore()
     {
-        Debug.Log("score");
         if (scoreType == ScoreType.CurrentScore)
         {
             text.text = scoreController.CurrentScore.ToString();

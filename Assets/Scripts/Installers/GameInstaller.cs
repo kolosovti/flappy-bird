@@ -64,6 +64,7 @@ public class GameInstaller : MonoInstaller
         Container.DeclareSignal<ScoreController.BestScoreUpdatedSignal>();
 
         Container.DeclareSignal<PlayerController.PlayerDeathSignal>();
+        Container.DeclareSignal<PlayerController.MovePlayerSignal>();
     }
 
     private class WallObjectsPool : MonoPoolableMemoryPool<Vector2, IMemoryPool, AbstractWall> { }

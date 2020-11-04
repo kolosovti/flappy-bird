@@ -11,12 +11,15 @@ public class WallScoreCounter : MonoBehaviour
     [Inject]
     private ScoreController score;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    [Inject]
+    private SoundsController soundsController;
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.tag == PLAYER)
         {
             score.CountScore();
+            soundsController.PlayScoreSound();
         }
     }
 }

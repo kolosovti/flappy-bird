@@ -19,7 +19,6 @@ public class TimeController : IInitializable
         signalBus = _signalBus;
         signalBus.Subscribe<GameController.StartGameSignal>(Play);
         signalBus.Subscribe<GameController.PauseSignal>(Pause);
-        signalBus.Subscribe<PlayerController.PlayerDeathSignal>(Pause);
     }
 
     /// <summary>
