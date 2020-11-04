@@ -5,6 +5,8 @@
 /// </summary>
 public abstract class AbstractPlayer : MonoBehaviour
 {
+    protected const string WALL_OBJECT_TAG = "Wall";
+
     /// <summary>
     /// Начать игровую активность
     /// </summary>

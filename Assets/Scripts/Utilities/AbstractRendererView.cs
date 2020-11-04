@@ -1,26 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
+using Zenject;
 
 /// <summary>
 /// Базовый класс для UI-объекта, состоянием которого нужно управлять с помощью CanvasGroup.
 /// Позволяет реализовать простую анимацию объекта с появлением через прозрачность
 /// </summary>
-[RequireComponent(typeof(CanvasGroup))]
+[RequireComponent(typeof(Canvas))]
 public class AbstractRendererView : MonoBehaviour
 {
-    private const float ACTIVE_TARGET_ALPHA = 1f;
-    private const float INACTIVE_TARGET_ALPHA = 0f;
+    [Inject]
+    private UIController uiController;
 
-    [SerializeField, Header("Скорость анимации появления / скрытия объекта")] 
-    private float AnimationSpeed = 1 / 30;
+    private Canvas canvas;
+    private bool isRendererActive;
 
-    private CanvasGroup canvasGroup;
+    /// <summary>
+    /// Включено ли отображение объекта?
+    /// </summary>
+    public bool IsRendererActive { get => isRendererActive; private set => isRendererActive = value; }
 
     protected virtual void Awake()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
+        canvas = GetComponent<Canvas>();
     }
 
     /// <summary>
@@ -28,12 +29,7 @@ public class AbstractRendererView : MonoBehaviour
     /// </summary>
     public virtual void ShowView()
     {
-        while (canvasGroup.alpha < ACTIVE_TARGET_ALPHA)
-        {
-            canvasGroup.alpha += AnimationSpeed * Time.deltaTime;
-        }
-
-        canvasGroup.blocksRaycasts = true;
+        SetRenderer(true);
     }
 
     /// <summary>
@@ -41,11 +37,12 @@ public class AbstractRendererView : MonoBehaviour
     /// </summary>
     public virtual void CloseView()
     {
-        while (canvasGroup.alpha > INACTIVE_TARGET_ALPHA)
-        {
-            canvasGroup.alpha -= AnimationSpeed * Time.deltaTime;
-        }
+        SetRenderer(false);
+    }
 
-        canvasGroup.blocksRaycasts = false;
+    private void SetRenderer(bool isActive)
+    {
+        canvas.enabled = isActive;
+        isRendererActive = isActive;
     }
 }

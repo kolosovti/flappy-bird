@@ -11,8 +11,9 @@ public class WallScoreCounter : MonoBehaviour
     [Inject]
     private ScoreController score;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.tag == PLAYER)
         {
             score.CountScore();

@@ -16,7 +16,6 @@ public class InputControl : ITickable
     private Settings settings;
 
     private SignalBus signalBus;
-    private bool lastTimeMouseButtonClicked;
 
     /// <summary>
     /// Конструктор класса
@@ -39,14 +38,7 @@ public class InputControl : ITickable
     {
         if (Input.GetMouseButtonDown(MOUSE_LEFT_BUTTON_KEY))
         {
-            if (!lastTimeMouseButtonClicked)
-            {
-                signalBus.Fire(new MouseInputDetectSignal() { PressedMouseButtonKey = MOUSE_LEFT_BUTTON_KEY });
-            }
-        }
-        else
-        {
-            lastTimeMouseButtonClicked = false;
+            signalBus.Fire(new MouseInputDetectSignal() { PressedMouseButtonKey = MOUSE_LEFT_BUTTON_KEY });
         }
 
         if (Input.touchCount > 0)
@@ -55,12 +47,8 @@ public class InputControl : ITickable
             {
                 if (touch.phase == TouchPhase.Began)
                 {
-                    Ray ray = Camera.main.ScreenPointToRay(touch.position);
-                    RaycastHit hit = new RaycastHit();
-                    if (Physics.Raycast(ray, out hit))
-                    {
-                        signalBus.Fire(new TouchInputDetectSignal() { objectTag = hit.collider.tag });
-                    }
+                    signalBus.Fire(new TouchInputDetectSignal() { });
+
                 }
             }
         }
@@ -69,13 +57,7 @@ public class InputControl : ITickable
     /// <summary>
     /// Класс для отправки сигнала о клике по объекту в сцене
     /// </summary>
-    public class TouchInputDetectSignal
-    {
-        /// <summary>
-        /// Название объекта, в который попал рейкаст
-        /// </summary>
-        public string objectTag;
-    }
+    public class TouchInputDetectSignal { }
 
     /// <summary>
     /// Класс для отправки сигнала о клике по объекту в сцене

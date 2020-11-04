@@ -1,15 +1,15 @@
 ﻿using Zenject;
 
 /// <summary>
-/// Кнопка начала игры
+/// Кнопка паузы
 /// </summary>
-public class PlayButton : AbstractButton
+public class PauseButton : AbstractButton
 {
     [Inject]
     private GameController gameController;
 
     protected override void OnButtonClicked()
     {
-        gameController.StartGame();
+        gameController.PauseGame();
     }
 }

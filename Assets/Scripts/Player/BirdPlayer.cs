@@ -9,6 +9,9 @@ using Zenject;
 public class BirdPlayer : AbstractPlayer
 {
     [Inject]
+    private PlayerController playerController;
+
+    [Inject]
     private Settings settings;
 
     private Rigidbody2D birdRigidbody;
@@ -23,7 +26,11 @@ public class BirdPlayer : AbstractPlayer
     /// </summary>
     public override void StartGameMovement()
     {
-        birdRigidbody.simulated = true;
+        if (birdRigidbody)
+        {
+            birdRigidbody.simulated = true;
+            birdRigidbody.velocity = Vector2.zero;
+        }
     }
 
     /// <summary>
@@ -31,7 +38,10 @@ public class BirdPlayer : AbstractPlayer
     /// </summary>
     public override void Move()
     {
-        birdRigidbody.velocity = settings.movement;
+        if (birdRigidbody)
+        {
+            birdRigidbody.velocity = settings.movement;
+        }
     }
 
     /// <summary>
@@ -47,12 +57,26 @@ public class BirdPlayer : AbstractPlayer
     /// </summary>
     public override void ResetToDefault()
     {
-        birdRigidbody.position = settings.defaultPosition;
+        if (birdRigidbody)
+        {
+            birdRigidbody.position = settings.defaultPosition;
+        }
     }
 
     private void Update()
     {
-        birdRigidbody.rotation = Vector2.Angle(Vector2.zero, birdRigidbody.velocity);
+        if (birdRigidbody)
+        {
+            birdRigidbody.rotation = birdRigidbody.velocity.y * 2f;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == WALL_OBJECT_TAG)
+        {
+            playerController.DeathHandler();
+        }
     }
 
     /// <summary>
