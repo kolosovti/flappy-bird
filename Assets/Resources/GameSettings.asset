@@ -16,7 +16,7 @@ MonoBehaviour:
     WallPrefab: {fileID: 1552367106128663312, guid: 108e77c72b934be4eae6633e9aa5e77b,
       type: 3}
     DistanceBetweenWalls: 9.2
-    MoveSpeed: {x: -0.1, y: 0}
+    MoveSpeed: {x: -0.03, y: 0}
     DespawnPositionX: -15
   RedWallObjectSettings:
     WallPrefab: {fileID: 6950932065369306161, guid: 6ce7e12dadddde24a8835b03e114914f,
@@ -31,7 +31,7 @@ MonoBehaviour:
   BirdPlayerSettings:
     PlayerPrefab: {fileID: 1173706979696674770, guid: c2df33311a357c249a77fbeee0c70fa2,
       type: 3}
-    movement: {x: 0, y: 1}
+    movement: {x: 0, y: 5}
     defaultPosition: {x: 0, y: 0}
   InputSettings:
     mainCamera: {fileID: 0}
